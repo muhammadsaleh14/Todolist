@@ -24,6 +24,7 @@ public class TodoListener {
                 if (change.wasAdded()) {
                     change.getAddedSubList().forEach(model -> {
                         TextField textField = new TextField(model.getText());
+                        textField.textProperty().bindBidirectional(model.textProperty());
                         // Apply text wrapping, styling, binding (as discussed earlier)
                         vbtodoList.getChildren().add(textField);
                     });

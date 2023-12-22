@@ -29,8 +29,7 @@ public class HelloController implements Initializable {
     @FXML
     private VBox vbtodoList;
 
-    public ObservableList<TextFieldModel> textFieldModels = FXCollections.observableArrayList();
-
+    public ObservableList<TextFieldModel> tmp = FXCollections.observableArrayList();
     TodoListener todoList;
 
 //    @FXML
@@ -41,9 +40,10 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void saveTodo(){
-        System.out.println(tfTodo.getText());
+        todoList.textFieldModels.forEach(model-> System.out.println(model.getText()));
+        System.out.println();
         if (tfTodo.getText() != ""){
-        textFieldModels.add(new TextFieldModel(new SimpleStringProperty(tfTodo.getText())));
+        todoList.textFieldModels.add(new TextFieldModel(new SimpleStringProperty(tfTodo.getText())));
         tfTodo.setText("");
         }
     }
@@ -58,10 +58,8 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Create text field models for each string in your list
         List<String> stringList = Arrays.asList("String 1", "String 2", "String 3"); // Replace with your actual list
-        stringList.forEach(string -> textFieldModels.add(new TextFieldModel(new SimpleStringProperty(string))));
-        textFieldModels.forEach(model -> loadTodos(model));
-        todoList = new TodoListener(textFieldModels,vbtodoList);
-
+        todoList = new TodoListener(tmp , vbtodoList);
+        stringList.forEach(string -> todoList.textFieldModels.add(new TextFieldModel(new SimpleStringProperty(string))));
     }
 
 
