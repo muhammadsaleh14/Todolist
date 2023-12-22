@@ -1,6 +1,7 @@
 package com.example.todolist.Controllers;
 
 import com.example.todolist.Models.TextFieldModel;
+import com.example.todolist.Models.TodoListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -23,15 +24,14 @@ public class HelloController implements Initializable {
     private Label welcomeText;
 
     @FXML
-    private ListView<TextFieldModel> listView = new ListView<>();
-
-    @FXML
     private TextField tfTodo;
 
     @FXML
     private VBox vbtodoList;
 
-    private ObservableList<TextFieldModel> textFieldModels = FXCollections.observableArrayList();
+    public ObservableList<TextFieldModel> textFieldModels = FXCollections.observableArrayList();
+
+    TodoListener todoList;
 
 //    @FXML
 //    protected void onHelloButtonClick() {
@@ -47,21 +47,22 @@ public class HelloController implements Initializable {
         tfTodo.setText("");
         }
     }
+    @FXML
+    protected void loadTodos(TextFieldModel tfModel){
+        TextField textField = new TextField();
+        textField.textProperty().bindBidirectional(tfModel.textProperty());
+        todoList.vbtodoList.getChildren().add(textField);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Create text field models for each string in your list
         List<String> stringList = Arrays.asList("String 1", "String 2", "String 3"); // Replace with your actual list
         stringList.forEach(string -> textFieldModels.add(new TextFieldModel(new SimpleStringProperty(string))));
-
-        TextField textField = new TextField();
-        textField.textProperty().bindBidirectional(model.textProperty());
-        vbtodoList.getChildren().add(textField);
-
-        // Set the items of the ListView
-        listView.setItems(textFieldModels);
-        // Set a cell factory to create text fields for each item
-        listView.setCellFactory(listView -> new TextFieldListCell());
+        textFieldModels.forEach(model -> loadTodos(model));
+        todoList = new TodoListener(textFieldModels,vbtodoList);
 
     }
+
+
 }
