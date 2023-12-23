@@ -1,9 +1,12 @@
 package com.example.todolist.Models;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -29,9 +32,13 @@ public class TodoListener {
                         TextArea textArea = new TextArea(model.getText());
                         textArea.textProperty().bindBidirectional(model.textProperty());
                         textArea.setWrapText(true);
-                        textArea.setMaxHeight(USE_PREF_SIZE); // Allow height to grow based on content
-                        textArea.setPrefRowCount(5); // Maximum rows
-
+                        textArea.setPrefRowCount(1);
+                        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+                            int currentRowCount = textArea.getParagraphs().size();
+                            if (currentRowCount <= 4){
+                            textArea.setPrefRowCount(currentRowCount);
+                            }
+                        });
                         // Apply text wrapping, styling, binding (as discussed earlier)
                         vbtodoList.getChildren().add(textArea);
                     });
@@ -54,4 +61,6 @@ public class TodoListener {
         });
 
     }
+
+
 }
