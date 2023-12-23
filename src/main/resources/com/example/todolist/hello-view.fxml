@@ -17,6 +17,6 @@
          </font>
       </Label>
       <TextField fx:id="tfTodo" onAction="#saveTodo" />
-      <VBox fx:id="vbtodoList" prefHeight="440.0" prefWidth="406.0" />
+      <VBox fx:id="vbtodoList" prefHeight="440.0" prefWidth="406.0" spacing="10.0" />
    </children>
 </VBox>

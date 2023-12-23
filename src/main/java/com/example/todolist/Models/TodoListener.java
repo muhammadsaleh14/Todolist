@@ -4,12 +4,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import static javafx.scene.control.PopupControl.USE_PREF_SIZE;
+
 public class TodoListener {
     public ObservableList<TextFieldModel> textFieldModels = FXCollections.observableArrayList();
-    public VBox vbtodoList = new VBox();
+    private VBox vbtodoList = new VBox();
 
     public TodoListener(ObservableList<TextFieldModel> textFieldModels, VBox vbtodoList) {
         this.textFieldModels = textFieldModels;
@@ -23,10 +26,14 @@ public class TodoListener {
             while (change.next()) {
                 if (change.wasAdded()) {
                     change.getAddedSubList().forEach(model -> {
-                        TextField textField = new TextField(model.getText());
-                        textField.textProperty().bindBidirectional(model.textProperty());
+                        TextArea textArea = new TextArea(model.getText());
+                        textArea.textProperty().bindBidirectional(model.textProperty());
+                        textArea.setWrapText(true);
+                        textArea.setMaxHeight(USE_PREF_SIZE); // Allow height to grow based on content
+                        textArea.setPrefRowCount(5); // Maximum rows
+
                         // Apply text wrapping, styling, binding (as discussed earlier)
-                        vbtodoList.getChildren().add(textField);
+                        vbtodoList.getChildren().add(textArea);
                     });
                 } else if (change.wasRemoved()) {
                     // Remove corresponding TextFields from the VBox

@@ -40,18 +40,12 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void saveTodo(){
-        todoList.textFieldModels.forEach(model-> System.out.println(model.getText()));
         System.out.println();
         if (tfTodo.getText() != ""){
         todoList.textFieldModels.add(new TextFieldModel(new SimpleStringProperty(tfTodo.getText())));
         tfTodo.setText("");
         }
-    }
-    @FXML
-    protected void loadTodos(TextFieldModel tfModel){
-        TextField textField = new TextField();
-        textField.textProperty().bindBidirectional(tfModel.textProperty());
-        todoList.vbtodoList.getChildren().add(textField);
+        todoList.textFieldModels.forEach(model-> System.out.println(model.getText()));
     }
 
     @Override
