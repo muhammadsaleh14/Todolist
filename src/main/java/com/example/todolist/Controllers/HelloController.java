@@ -1,15 +1,13 @@
 package com.example.todolist.Controllers;
 
-import com.example.todolist.Models.TextFieldModel;
-import com.example.todolist.Models.TodoListener;
+import com.example.todolist.Models.Todo;
+import com.example.todolist.Models.TodosList;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -29,8 +27,8 @@ public class HelloController implements Initializable {
     @FXML
     private VBox vbtodoList;
 
-    public ObservableList<TextFieldModel> tmp = FXCollections.observableArrayList();
-    TodoListener todoList;
+    public ObservableList<Todo> tmp = FXCollections.observableArrayList();
+    TodosList todoList;
 
 //    @FXML
 //    protected void onHelloButtonClick() {
@@ -40,20 +38,21 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void saveTodo(){
+        todoList.todos.forEach(model -> System.out.println(model.getText()));
         System.out.println();
         if (tfTodo.getText() != ""){
-        todoList.textFieldModels.add(new TextFieldModel(new SimpleStringProperty(tfTodo.getText())));
+        todoList.todos.add(new Todo(new SimpleStringProperty(tfTodo.getText())));
         tfTodo.setText("");
         }
-        todoList.textFieldModels.forEach(model-> System.out.println(model.getText()));
+        todoList.todos.forEach(model-> System.out.println(model.getText()));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Create text field models for each string in your list
         List<String> stringList = Arrays.asList("String 1", "String 2", "String 3"); // Replace with your actual list
-        todoList = new TodoListener(tmp , vbtodoList);
-        stringList.forEach(string -> todoList.textFieldModels.add(new TextFieldModel(new SimpleStringProperty(string))));
+        todoList = new TodosList(tmp , vbtodoList);
+        stringList.forEach(string -> todoList.todos.add(new Todo(new SimpleStringProperty(string))));
     }
 
 

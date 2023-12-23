@@ -1,35 +1,31 @@
 package com.example.todolist.Models;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import static javafx.scene.control.PopupControl.USE_PREF_SIZE;
-
-public class TodoListener {
-    public ObservableList<TextFieldModel> textFieldModels = FXCollections.observableArrayList();
+public class TodosList {
+    public ObservableList<Todo> todos = FXCollections.observableArrayList();
     private VBox vbtodoList = new VBox();
 
-    public TodoListener(ObservableList<TextFieldModel> textFieldModels, VBox vbtodoList) {
-        this.textFieldModels = textFieldModels;
+    public TodosList(ObservableList<Todo> todos, VBox vbtodoList) {
+        this.todos = todos;
         this.vbtodoList = vbtodoList;
         initializeTodoListener();
     }
 
     // Add the listener code here
     private void initializeTodoListener() {
-        textFieldModels.addListener((ListChangeListener<TextFieldModel>) change -> {
+        todos.addListener((ListChangeListener<Todo>) change -> {
             while (change.next()) {
                 if (change.wasAdded()) {
                     change.getAddedSubList().forEach(model -> {
                         TextArea textArea = new TextArea(model.getText());
+                        textArea.setId(model.getStringId());
                         textArea.textProperty().bindBidirectional(model.textProperty());
                         textArea.setWrapText(true);
                         textArea.setPrefRowCount(1);
@@ -37,6 +33,13 @@ public class TodoListener {
                             int currentRowCount = textArea.getParagraphs().size();
                             if (currentRowCount <= 4){
                             textArea.setPrefRowCount(currentRowCount);
+                            }
+                        });
+                        textArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                            if (!newValue && model.getText().isEmpty()) {
+                                // Delete the TextArea when focus is lost and it's empty
+                                todos.removeIf(obj -> obj.getId() == model.getId());
+
                             }
                         });
                         // Apply text wrapping, styling, binding (as discussed earlier)
@@ -47,13 +50,13 @@ public class TodoListener {
                     change.getRemoved().forEach(model -> {
                         for (int i = 0; i < vbtodoList.getChildren().size(); i++) {
                             Node node = vbtodoList.getChildren().get(i);
-                            if (node instanceof TextField && ((TextField) node).textProperty().isBound()) {
-                                TextField boundTextField = (TextField) node;
-                                if (boundTextField.textProperty().get().equals(model.getText())) {
+                                    System.out.println(model.getText()+ model.getId());
+
+                                TextArea boundTextField = (TextArea) node;
+                                if (boundTextField.getId().equals(model.getStringId())) {
                                     vbtodoList.getChildren().remove(i);
                                     break; // Exit inner loop as TextField is found
                                 }
-                            }
                         }
                     });
                 }

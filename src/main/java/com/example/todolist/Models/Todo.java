@@ -3,12 +3,28 @@ package com.example.todolist.Models;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TextFieldModel {
+import java.util.UUID;
+
+public class Todo {
+
+    private UUID id;
+    // Getter for the ID
 
 
     private StringProperty text = new SimpleStringProperty();
     private int priority;
+    public Todo(StringProperty text) {
+        this.text = text;
+        id = UUID.randomUUID();
+    }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getStringId(){
+        return id.toString();
+    }
     public int getPriority() {
         return priority;
     }
@@ -19,9 +35,6 @@ public class TextFieldModel {
 
     public StringProperty textProperty() {
         return text;
-    }
-    public TextFieldModel(StringProperty text) {
-        this.text = text;
     }
 
     public String getText() {
