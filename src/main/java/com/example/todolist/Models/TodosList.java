@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -16,6 +17,7 @@ import javafx.scene.text.Font;
 public class TodosList {
     public ObservableList<Todo> todos = FXCollections.observableArrayList();
     private VBox vbtodoList = new VBox();
+    public int nextPriorityNumber = 1;
 
     public TodosList(ObservableList<Todo> todos, VBox vbtodoList) {
         this.todos = todos;
@@ -60,13 +62,13 @@ public class TodosList {
                         xButton.setMnemonicParsing(false);
                         xButton.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
                         xButton.setFont(Font.font(12));
-                        xButton.setStyle("-fx-background-color: transparent;");
+                        xButton.setStyle("-fx-background-color: white;");
                         xButton.hoverProperty().addListener((observable, oldValue, newValue) -> {
                             if (newValue) {
                                 xButton.setStyle("-fx-background-color: red;");
                             } else {
                                 // Reset to original background color
-                                xButton.setStyle("-fx-background-color: transparent;");
+                                xButton.setStyle("-fx-background-color: white;");
                             }
                         });
                         xButton.setOnAction(event -> {

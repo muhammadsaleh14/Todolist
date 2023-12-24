@@ -13,7 +13,8 @@ public class Todo {
 
     private StringProperty text = new SimpleStringProperty();
     private int priority;
-    public Todo(StringProperty text) {
+    public Todo(StringProperty text, int priority) {
+        this.priority= priority;
         this.text = text;
         id = UUID.randomUUID();
     }
