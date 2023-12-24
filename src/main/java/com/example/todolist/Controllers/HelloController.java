@@ -51,7 +51,9 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Create text field models for each string in your list
         List<String> stringList = Arrays.asList("String 1", "String 2", "String 3"); // Replace with your actual list
+
         todoList = new TodosList(tmp , vbtodoList);
+
         stringList.forEach(string -> todoList.todos.add(new Todo(new SimpleStringProperty(string))));
     }
 
