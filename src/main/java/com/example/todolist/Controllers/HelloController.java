@@ -55,11 +55,20 @@ public class HelloController implements Initializable {
         if (taskNumber >= 1 && taskNumber <= todoList.todos.size() && preferredPriority > 0 ){
             Todo temp = todoList.todos.get(taskNumber-1);
             temp.setPriority(preferredPriority);
-            todoList.todos.add(temp);
-            todoList.todos.remove(taskNumber-1);
+//            todoList.todos.remove(taskNumber-1);
+//            todoList.todos.add(temp);
         }
-        todoList.todos= todoList.todos.sorted(Comparator.comparingInt(node -> (int) node.getPriority()));
-        todoList.todos.forEach(model-> System.out.println(model.getText()+" "+ model.getPriority()));
+        TodosList tempTodoList = todoList.deepCopy();
+        tempTodoList.todos= tempTodoList.todos.sorted(Comparator.comparingInt(node -> (int) node.getPriority()));
+        todoList.todos.clear();
+
+        System.out.println(tempTodoList.todos.size());
+        System.out.println();
+        tempTodoList.todos.forEach(tempTodo-> todoList.todos.add(tempTodo));
+
+        tempTodoList.todos.forEach(model-> System.out.println("temp:"+model.getText()+" "+ model.getPriority()));
+        System.out.println("");
+        todoList.todos.forEach(model-> System.out.println("todo:"+model.getText()+" "+ model.getPriority()));
         System.out.println("");
 
     }

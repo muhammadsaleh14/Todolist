@@ -28,9 +28,9 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="250.0" spacing="10.0">
                <children>
-                  <Label text="Task #:" />
+                  <Label prefHeight="17.0" prefWidth="43.0" text="Task #:" />
                   <TextField fx:id="numberField" />
-                  <Label text="Priority :" />
+                  <Label prefHeight="17.0" prefWidth="50.0" text="Priority :" />
                   <TextField fx:id="priorityField" maxWidth="-Infinity" />
                </children>
             </HBox>

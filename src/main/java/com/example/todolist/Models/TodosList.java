@@ -14,6 +14,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+
 public class TodosList {
     public ObservableList<Todo> todos = FXCollections.observableArrayList();
     private VBox vbtodoList = new VBox();
@@ -25,6 +27,7 @@ public class TodosList {
         vbtodoList.setSpacing(0);
         initializeTodoListener();
     }
+
 
     // Add the listener code here
     private void initializeTodoListener() {
@@ -115,6 +118,11 @@ public class TodosList {
         });
 
     }
-
-
+    public TodosList deepCopy() {
+        ObservableList<Todo> copiedTodos = FXCollections.observableArrayList();
+        copiedTodos.addAll(this.todos);
+        TodosList copiedList = new TodosList(copiedTodos, new VBox()); // Use a new VBox
+        // Initialize listener for the new list
+        return copiedList;
+    }
 }
